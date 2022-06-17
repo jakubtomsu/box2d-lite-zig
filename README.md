@@ -21,9 +21,9 @@ pub fn main() anyerror!void {
     var b2World: b2.World = b2.World{
         .gravity = b2.Vec2{ .x = 0, .y = -9.81 },
         .iterations = 6,
-        .accumulateImpulses = true,
-        .warmStarting = true,
-        .positionCorrection = true,
+        .accumulateImpulses = true, // Enable accumulating impulsed over many frames
+        .warmStarting = true, // Reuse impulses from last frame to start the physics solver
+        .positionCorrection = true, // Also correct position, not just velocity
         .bodies = std.ArrayList(b2.Body).init(std.heap.page_allocator),
         .arbiters = b2.World.ArbiterMap.init(std.heap.page_allocator),
     };
