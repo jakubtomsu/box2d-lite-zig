@@ -4,8 +4,9 @@ the [Zig programming language](https://ziglang.org/)
 
 ### Note: it's still work-in-progress!
 
-## Debug drawing
-- uses raylib to visualize bodies and contacts
+![screencap](screencap_raylib_0.gif)
+
+[box2d_raylib_debugdraw.zig](box2d_raylib_debugdraw.zig): Debug drawing with raylib.
 
 ## Basic Example
 Shows how to set-up a physics world and run simulation. Prints body positions to console.
