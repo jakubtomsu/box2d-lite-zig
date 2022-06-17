@@ -2,6 +2,8 @@
 Version of [Box2D-Lite](https://github.com/erincatto/box2d-lite) rewritten in
 the [Zig programming language](https://ziglang.org/)
 
+> Box2D-Lite is a small 2D physics engine. It was developed for the 2006 GDC Physics Tutorial. This is the original version of the larger Box2D library. The Lite version is more suitable for learning about game physics.
+
 ### Note: it's still work-in-progress!
 
 ![screencap](screencap_raylib_0.gif)
