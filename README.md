@@ -6,6 +6,8 @@ the [Zig programming language](https://ziglang.org/)
 
 ### Note: it's still work-in-progress!
 
+Tested Zig compiler version: **0.10.0-dev.2585+fcfeafe99**
+
 ![screencap](screencap_raylib_0.gif)
 
 [box2d_raylib_debugdraw.zig](box2d_raylib_debugdraw.zig): Debug drawing with raylib.
