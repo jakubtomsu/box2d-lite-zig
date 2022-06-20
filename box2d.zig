@@ -1,4 +1,5 @@
 //! Box2D-Lite Zig
+//! https://github.com/jakubtomsu/box2d-lite-zig
 //! Version of Box2D-Lite (https://github.com/erincatto/box2d-lite) rewritten in Zig (https://ziglang.org/)
 //!
 //! Everything is in single file for ease of use (and also because it's small).
