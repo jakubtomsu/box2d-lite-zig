@@ -27,6 +27,6 @@ pub fn drawArbiter(arb: b2.Arbiter) void {
 }
 
 pub fn drawWorld(world: *const b2.World) void {
-    for (world.bodies.items) |*b| drawBody(b);
+    for (world.bodies.values()) |*b| drawBody(b);
     for (world.arbiters.values()) |a| drawArbiter(a);
 }

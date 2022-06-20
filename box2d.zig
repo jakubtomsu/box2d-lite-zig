@@ -24,8 +24,11 @@ pub const World = struct {
     warmStarting: bool,
     positionCorrection: bool,
     // data
-    bodies: std.ArrayList(Body),
+    bodies: BodyMap,
     arbiters: ArbiterMap,
+    bodyHandleCounter: BodyHandle = 0,
+    
+    pub const BodyMap = std.AutoArrayHashMap(BodyHandle, Body);
     pub const ArbiterMap = std.ArrayHashMap(ArbiterKey, Arbiter, ArbiterHashMapContext, false);
     const ArbiterHashMapContext = struct {
         ///   eql(self, K, K, usize) bool
@@ -41,10 +44,16 @@ pub const World = struct {
         }
     };
 
-    pub fn addBody(self: *@This(), body: Body) void {
+    pub fn addBody(self: *@This(), body: Body) BodyHandle {
         // self.bodies.append(body);
-        std.ArrayList(Body).append(&self.bodies, body) catch return;
+        // std.ArrayList(Body).append(&self.bodies, body) catch return BodyHandleInvalid;
+        const handle = self.bodyHandleCounter;
+        self.bodies.put(handle, body) catch return BodyHandleInvalid;
+        self.bodyHandleCounter += 1;
+        return handle;
     }
+    
+    // pub fn deleteBody(self: *@This(), handle: BodyHandle) void { }
 
     pub fn clear(self: *@This()) void {
         self.bodies.clear();
@@ -55,9 +64,9 @@ pub const World = struct {
         print("World.broadPhase\n", .{});
 
         // O(n^2) broad-phase
-        for (self.bodies.items) |*bi, i| {
+        for (self.bodies.values()) |*bi, i| {
             // for (int j = i + 1; j < (int)bodies.size(); ++j) {
-            for (self.bodies.items[i + 1 ..]) |*bj| {
+            for (self.bodies.values()[i + 1 ..]) |*bj| {
                 if (bi.invMass == 0.0 and bj.invMass == 0.0) continue;
 
                 const newArb = Arbiter.init(bi, bj);
@@ -86,7 +95,7 @@ pub const World = struct {
 
         // Integrate forces.
         print("World.step: Integrate forces\n", .{});
-        for (self.bodies.items) |*b| {
+        for (self.bodies.values()) |*b| {
             if (b.invMass == 0.0) continue;
 
             b.velocity = b.velocity.add(self.gravity.add(b.force.mulF32(b.invMass)).mulF32(dt));
@@ -111,7 +120,7 @@ pub const World = struct {
 
         // Integrate Velocities
         print("World.step: Integrate Velocities\n", .{});
-        for (self.bodies.items) |*b| {
+        for (self.bodies.values()) |*b| {
             b.position = b.position.add(b.velocity.mulF32(dt));
             b.rotation += b.angularVelocity * dt;
 
@@ -120,6 +129,9 @@ pub const World = struct {
         }
     }
 };
+
+pub const BodyHandleInvalid: BodyHandle = std.math.maxInt(BodyHandle);
+pub const BodyHandle = u32;
 
 pub const Body = struct {
     position: Vec2,
