@@ -26,7 +26,7 @@ pub fn main() anyerror!void {
         .accumulateImpulses = true, // Enable accumulating impulsed over many frames
         .warmStarting = true, // Reuse impulses from last frame to start the physics solver
         .positionCorrection = true, // Also correct position, not just velocity
-        .bodies = std.ArrayList(b2.Body).init(std.heap.page_allocator),
+        .bodies = b2.World.BodyMap.init(std.heap.page_allocator),
         .arbiters = b2.World.ArbiterMap.init(std.heap.page_allocator),
     };
 
